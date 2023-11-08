@@ -17,3 +17,21 @@ Advantages
 2. Temporary stored procedures
 3. System Stored procedures
 
+
+EXEC dbo.getUsersName
+
+- System Procedures
+sys.system_objects
+sys.system_parameters
+
+- User-Defined   
+EXEC sys.sp_who    (Best practice to include the sys.schema
+
+https://learn.microsoft.com/en-us/training/modules/create-stored-procedures-table-valued-functions/2-call
+
+Pass Input to Stored Procedures
+
+EXEC <schema_name>.<procedure_name> @<parameter_name> = 'VALUE'
+
+
+
