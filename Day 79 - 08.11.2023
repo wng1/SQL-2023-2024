@@ -33,5 +33,31 @@ Pass Input to Stored Procedures
 
 EXEC <schema_name>.<procedure_name> @<parameter_name> = 'VALUE'
 
+EXEC Products.ProductBySupplier @supplierID = 5
+EXEC Customers.CustomerID @customerID = 5
+
+EXEC customers.customerid @CustomerID
+
+
+Default Values
+
+If a parameter was declared with a default value, you don't have to pass value when the stored procedure is run. If a value is passed it will be used, 
+but if no value is passed, then the default is used.
+
+CREATE PROCEDURE Sales.SalesYTD
+@SalesPerson NVARCHAR(50) = NULL
+AS ...
+
+
+CREATE PROCEDURE Production.uspGetList @Product varchar(40)
+    , @MaxPrice money   
+    , @ComparePrice money OUTPUT  
+    , @ListPrice money OUT  
+AS
+
+
+
+
+
 
 
