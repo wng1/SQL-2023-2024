@@ -1,0 +1,19 @@
+Stored Procduces are named groups of T-SQL statements that can be:
+
+1. Used and Re-used whenever they're needed
+2. Manipulate Data
+3. Perform Administrative Actions on the server
+
+Advantages
+- Re-use of code, eliminates error and reduce development time.
+- Security - perform certain operations without giving permissions to underlying tables. Control which processes and activities are allowed, thereby improving security.
+- Quality improvement - error handling
+- Performance improvement - execution plan can be reused and is quicker
+- Lower maintainence - when design changes, only the procedures are updated providing a clean separation from data/application tier.
+
+3 Types of Stored Procedures
+
+1. User-defined stored procedures
+2. Temporary stored procedures
+3. System Stored procedures
+
