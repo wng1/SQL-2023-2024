@@ -103,4 +103,112 @@ EXECUTE sp_executesql
           N'@company nvarchar(128)',  
           @company = "Sharp Bikes";
 
+Dynamic SQL allows you to build a character string that can be executed as T-SQL as an alternative to stored procedures. 
+Dynamic SQL is useful when you don't know certain values until execution time.
 
+DECLARE @sqlstring AS VARCHAR(1000);
+    SET @sqlstring='SELECT customerid, companyname, firstname, lastname 
+    FROM SalesLT.Customer;'
+EXEC(@sqlstring);
+GO
+
+DECLARE @sqlstring1 NVARCHAR(1000);
+SET @SqlString1 =
+    N'SELECT TOP(10) name, listprice
+    FROM SalesLT.Product
+    GROUP BY name, listprice
+    ORDER BY listprice DESC;'
+EXECUTE sp_executesql @SqlString1;
+
+OR
+
+EXECUTE sp_executesql N'SELECT TOP(10) name, listprice
+    FROM SalesLT.Product
+    GROUP BY name, listprice
+    ORDER BY listprice DESC;'
+
+EXECUTE sp_executesql   
+          N'SELECT * FROM SalesLT.Customer   
+          WHERE CompanyName = @company',  
+          N'@company nvarchar(128)',  
+          @company = "Sharp Bikes";
+
+------------------------------------------------------
+User-defined functions (UDF) are similar to stored procedures in that they're stored separately from tables in the database. 
+These functions accept parameters, perform an action, and then return the action result as a single (scalar) value or a result set (table-valued). 
+You can then use the function in place of a table when writing a SELECT statement. 
+User-defined functions are meant to perform calculations and use that result within another statement. 
+Whereas stored procedures can encapsulate the function and statement, and even modify data within the database.
+
+------------------------------------------------------
+Three types of User-Defined Functions
+
+- Inlined table-valued functions - preferred choice for performance
+
+CREATE FUNCTION SalesLT.ProductsListPrice(@cost money)  
+RETURNS TABLE  
+AS  
+RETURN  
+    SELECT ProductID, Name, ListPrice  
+    FROM SalesLT.Product  
+    WHERE ListPrice > @cost;
+
+
+SELECT Name, ListPrice  
+FROM SalesLT.ProductsListPrice(500);
+
+-------------------------------------------------------
+Multi-Statement Table-Valued Functions
+
+Unlike the inline TVF, a multi-statement table-valued function (MSTVF) can have more than one statement and has different syntax requirements.
+Notice how in the following code, we use a BEGIN/END in addition to RETURN:
+
+CREATE FUNCTION Sales.mstvf_OrderStatus ()
+RETURNS
+@Results TABLE
+     ( CustomerID int, OrderDate datetime )
+AS
+BEGIN
+     INSERT INTO @Results
+     SELECT SC.CustomerID, OrderDate
+     FROM Sales.Customer AS SC
+     INNER JOIN Sales.SalesOrderHeader AS SOH
+        ON SC.CustomerID = SOH.CustomerID
+     WHERE Status >= 5
+ RETURN;
+END;
+
+Once created, you reference the MSTVF in place of a table just like with the previous inline function above. 
+You can also reference the output in the FROM clause and join it with other tables.
+
+
+SELECT *
+FROM Sales.mstvf_OrderStatus();
+
+
+Scalar User-Defined Functions
+A scalar user-defined function returns only one value unlike table-valued functions and therefore is often used for simple, frequent statements.
+
+Here's an example to get the product list price for a specific product on a certain day:
+
+
+CREATE FUNCTION dbo.ufn_GetProductListPrice
+(@ProductID [int], @OrderDate [datetime])
+RETURNS [money] 
+AS 
+BEGIN
+    DECLARE @ListPrice money;
+        SELECT @ListPrice = plph.[ListPrice]
+        FROM [Production].[Product] p 
+        INNER JOIN [Production].[ProductListPriceHistory] plph 
+        ON p.[ProductID] = plph.[ProductID] 
+            AND p.[ProductID] = @ProductID 
+            AND StartDate = @OrderDate
+    RETURN @ListPrice;
+END;
+GO
+
+For this function, both parameters must be provided to get the value. 
+Depending on the function, you can list the function in the SELECT statement in a more complex query.
+
+SELECT dbo.ufn_GetProductListPrice (707, '2011-05-31')
