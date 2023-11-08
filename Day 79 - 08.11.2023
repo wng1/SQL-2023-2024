@@ -56,8 +56,21 @@ CREATE PROCEDURE Production.uspGetList @Product varchar(40)
 AS
 
 
+--------------------------------------------------------------
 
+CREATE PROCEDURE SalesLT.TopProducts AS
+SELECT TOP(10) name, listprice
+    FROM SalesLT.Product
+    GROUP BY name, listprice
+    ORDER BY listprice DESC;
 
+ALTER PROCEDURE SalesLT.TopProducts AS
+    SELECT TOP(100) name, listprice
+    FROM SalesLT.Product
+    GROUP BY name, listprice
+    ORDER BY listprice DESC;
+
+DROP PROCEDURE myProcedure; 
 
 
 
