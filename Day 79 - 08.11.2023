@@ -73,4 +73,34 @@ ALTER PROCEDURE SalesLT.TopProducts AS
 DROP PROCEDURE myProcedure; 
 
 
+Dynamic SQL allows you to build a character string that can be executed as T-SQL as an alternative to stored procedures. 
+Dynamic SQL is useful when you don't know certain values until execution time.
+
+DECLARE @sqlstring AS VARCHAR(1000);
+    SET @sqlstring='SELECT customerid, companyname, firstname, lastname 
+    FROM SalesLT.Customer;'
+EXEC(@sqlstring);
+GO
+
+DECLARE @sqlstring1 NVARCHAR(1000);
+SET @SqlString1 =
+    N'SELECT TOP(10) name, listprice
+    FROM SalesLT.Product
+    GROUP BY name, listprice
+    ORDER BY listprice DESC;'
+EXECUTE sp_executesql @SqlString1;
+
+OR
+
+EXECUTE sp_executesql N'SELECT TOP(10) name, listprice
+    FROM SalesLT.Product
+    GROUP BY name, listprice
+    ORDER BY listprice DESC;'
+
+EXECUTE sp_executesql   
+          N'SELECT * FROM SalesLT.Customer   
+          WHERE CompanyName = @company',  
+          N'@company nvarchar(128)',  
+          @company = "Sharp Bikes";
+
 
