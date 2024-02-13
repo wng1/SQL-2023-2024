@@ -38,8 +38,18 @@ Below is an example of a correct way:
 DECLARE @ERRORVALUE int;
 RAISEERROR(N'Message', 16,1);
 SET @ErrorValue = @@ERROR
+
 IF @ErrorValue <>0
 PRINT 'Error=' + CAST(@ErrorValue AS VARCHAR(8));
 
 
 
+----
+
+BEGIN TRY
+
+END TRY
+BEGIN CATCH
+  PRINT ERROR_MESSAGE();
+  THROW
+END CATCH
