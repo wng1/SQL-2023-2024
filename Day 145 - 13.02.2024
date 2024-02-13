@@ -27,3 +27,17 @@ Every errors is composed of the following elements:
 - Procedure
 - Line Number
 
+
+IMPORTANT:  Capture the Error Number into the variable soon as it is raised and proceed forward. If you do not, this will not show the correct
+Error Message.
+
+Below is an example of a correct way:
+
+DECLARE @ERRORVALUE int;
+RAISEERROR(N'Message', 16,1);
+SET @ErrorValue = @@ERROR
+IF @ErrorValue <>0
+PRINT 'Error=' + CAST(@ErrorValue AS VARCHAR(8));
+
+
+
