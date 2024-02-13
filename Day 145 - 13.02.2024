@@ -1,0 +1,29 @@
+T-SQL is powerful declarative language that lets you:
+- explore
+- manipulate
+
+As the complexity of your programs increase, so does the risk of errors occurring.
+
+Example: Data Type Mismatch, Variables not containing expected values
+
+If not managed correctly, these errors can cause your programs to stop running or to produced unexpected behaviours.
+
+T-SQL error handling can help to raise errors intentionally and set up alerts to fire when errors occurs.
+
+1) Raise errors using the RAISERROR statement.
+2) Raise errors using the THROW statement.
+3) Use the @@ERROR system variable
+4) Create custom errors.
+5) Create alerts that fire when errors occur.
+
+Error can be generated in response to an event or failure at the system level, or you can generate application errors in T-SQL code.
+
+Every errors is composed of the following elements:
+
+- Error Number
+- Error Message
+- Severity
+- State
+- Procedure
+- Line Number
+
