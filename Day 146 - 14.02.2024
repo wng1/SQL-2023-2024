@@ -1,0 +1,39 @@
+https://learn.microsoft.com/en-gb/training/modules/implement-transactions-transact-sql/2-describe-transactions 
+
+Construct transactions to control the behaviour of multiple transact-SQL (T-SQL), you will determine whether an error has occured, and when to roll back statements.
+
+If the T-SQL statement fails, all of the statement fails. If it is successful, all become successful. 
+Whether it succeed or fail, no partial completion is permitted. transaction encapsulate operations must logically occur togehter such as multiple entries into related tables that are part of single operations.
+BEGIN TRY
+BEGIN TRANSACTION;
+COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+	SELECT ERROR_NUMBER() AS ErrNum, ERROR_MESSAGE() AS ErrMsg;
+	ROLLBACK TRANSACTION;
+END CATCH
+
+XACT_STATE can be used before the ROLLBACK command, to check whether the transaction is active.
+BEGIN TRY
+ BEGIN TRANSACTION;
+ 	INSERT INTO dbo.SimpleOrders(custid, empid, orderdate) 
+	VALUES (68,9,'2006-07-12');
+	INSERT INTO dbo.SimpleOrderDetails(orderid,productid,unitprice,qty) 
+	VALUES (1, 2,15.20,20);
+ COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+	SELECT ERROR_NUMBER() AS ErrNum, ERROR_MESSAGE() AS ErrMsg;
+	IF (XACT_STATE()) <> 0
+    	BEGIN
+        ROLLBACK TRANSACTION;
+    	END;
+	ELSE .... -- provide for other outcomes of XACT_STATE()
+END CATCH;
+https://learn.microsoft.com/en-gb/training/modules/create-tables-views-temporary-objects/1-introduction
+Use T-SQL to enhance querying experience. We can use to view, derive tables, CTE, to help your querying needs. Use T-SQL to break down complex queries into smaller and more manageable parts, and even get the data needed without having to directly access the underlying source data.
+
+Debugging
+https://learn.microsoft.com/en-gb/training/modules/orchestrate-data-movement-transformation-azure-data-factory/4-debug-pipelines
+A best practice is to use test folders in your copy activities and other activities when debugging, such that when you are satisfied with the results and have debugged the pipeline, you switch to the actual folders for your normal operations.
+
