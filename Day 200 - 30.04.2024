@@ -1,0 +1,23 @@
+Use SQL to find how many countries have their head office in NY
+------------------------------------------------------------------------------------------------------------------------
+SELECT country_name
+FROM 
+Country
+------------------------------
+SELECT COUNT(country_name)
+FROM 
+Country
+------------------------------
+SELECT COUNT (distinct country_name) 
+FROM Country
+------------------------------
+SELECT COUNT (distinct country_name) 
+FROM Country
+WHERE Head_Office IN
+(SELECT Head_Office FROM Country WHERE Head_Office='New York')
+------------------------------
+WITH CTE AS
+(SELECT Head_Office, COUNT(Country_Name) As No_Of_Countries
+FROM Country
+GROUP BY Head_Office)
+
