@@ -1,0 +1,12 @@
+SELECT average_age(
+SELECT AVERAGE(AGE) As Average_age, email_subscribe
+FROM Customers
+GROUP BY email_subscribe) a
+WHERE email_subscribe = "YES"
+
+SELECT CustomerID, Orders, sales_channel (
+SELECT SUM(Orders) 
+FROM Orders
+GROUP By CustomersID, sales_channel)
+
+
