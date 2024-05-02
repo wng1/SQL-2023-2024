@@ -1,0 +1,14 @@
+SLECT average_price FROM(
+	SELECT category, round(AVG(Price), 3) Average Price
+	FROM Products 
+	GROUP BY category) a
+WHERE a.category = 'food'
+
+#Latest Order by Customer that opted to receive comms
+
+WITH CTE as
+(SELECT Top 1 latest_order,
+FROM ORDERS o
+JOIN Customers c
+ON o.customer_id = c.customer_id WHERE subscribe_email='yes'
+ORDER BY date_shop DESC)
