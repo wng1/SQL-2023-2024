@@ -1,0 +1,19 @@
+5. What is the average price of products in the ‘food’ category?
+
+SLECT average_price FROM(
+	SELECT category, round(AVG(Price), 3) Average Price
+	FROM Products 
+	GROUP BY category) a
+WHERE a.category = 'food'
+
+6. What is the date of the latest order made by a customer who can receive comms emails?
+
+
+WITH CTE as
+(SELECT Top 1 latest_order,
+FROM ORDERS o
+JOIN Customers c
+ON o.customer_id = c.customer_id WHERE subscribe_email='yes'
+ORDER BY date_shop DESC)
+
+SELECT latest_order FROM CTE
