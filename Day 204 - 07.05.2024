@@ -1,0 +1,12 @@
+What is the name and no.of orders in the country with the highest number of orders?
+
+WITH CTE AS(
+SELECT o.order_id, c.country_name
+FROM Orders o
+JOIN Country C
+ON c.country.id = o.country_id)
+
+SELECT TOP 1 COUNT(Order_Id) As Highest Number of Orders,
+Country_name FROM CTE
+GROUP By Country_name 
+ORDER BY HIghest_No_of_orders DESC
