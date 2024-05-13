@@ -8,6 +8,12 @@ SELECT *
 FROM Customers
 WHERE City = 'London' -- Index on  'City' column
 
-
+-------------------------------------------------
 Utilise EXPLAIN to understand the SQL Query's Execution plan and identify bottlenecks
+-------------------------------------------------
+CREATE MATERIALIZED VIEW mv_customer_orders AS
+SELECT c.customer_id, COUNT(o.order_id) AS order_count
+FROM customer c
+JOIN orders o ON c.customer_id = o.customer_id
+GROUP by c.customer_id;
 
