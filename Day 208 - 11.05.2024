@@ -8,3 +8,6 @@ SELECT *
 FROM Customers
 WHERE City = 'London' -- Index on  'City' column
 
+
+Utilise EXPLAIN to understand the SQL Query's Execution plan and identify bottlenecks
+
