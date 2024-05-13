@@ -1,0 +1,12 @@
+Unoptimised Query (Full Table Scan)
+
+SELECT * 
+FROM Customers
+WHERE City = 'London';
+
+-------------------------------------------------
+
+SELECT *
+FROM Customers
+WHERE City = 'London' -- Index on  'City' column
+
